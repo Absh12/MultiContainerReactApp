@@ -5,6 +5,7 @@
  
  beore_install:
          - gem install bundler
+         - rake spec
          - docker build -t reactapp/frontend -f ./client/Dockerfile.dev ./client
            #script:
            #- docker run reactapp/frontend npm test -- --coverage
