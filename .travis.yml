@@ -4,7 +4,7 @@
          - docker
  
  beore_install:
-         - docker build -t reactapp/frontend -f Dockerfile.dev ./client/Dockerfile.dev ./client
+         - docker build -t reactapp/frontend -f ./client/Dockerfile.dev ./client
  script:
          - docker run reactapp/frontend npm test -- --coverage
  after_success:
