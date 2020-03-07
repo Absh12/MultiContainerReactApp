@@ -5,8 +5,8 @@
  
  beore_install:
          - docker build -t reactapp/frontend -f ./client/Dockerfile.dev ./client
- script:
-         - docker run reactapp/frontend npm test -- --coverage
+           #script:
+           #- docker run reactapp/frontend npm test -- --coverage
  after_success:
          - docker build -t reactapp/multi-client ./client
          - docker build -t reactapp/multi-nginx ./nginx
