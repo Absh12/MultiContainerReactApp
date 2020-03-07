@@ -1,0 +1,37 @@
+sudo: required
+services:
+        - docker
+
+before_install:
+        - docker build -t reactapp/frontend -f Dockerfile.dev ./client/Dockerfile.dev ./client        
+script: 
+        - docker run reactapp/frontend npm test -- --coverage
+
+after_success:
+        - docker build -t reactapp/multi-client ./client
+        - docker build -t reactapp/multi-nginx ./nginx
+        - docker build -t reactapp/multi-server ./server
+        - docker build -t reactapp/multi-worker ./worker
+
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+- docker push reactapp/multi-client
+- docker push reactapp/multi-nginx
+- docker push reactapp/multi-server
+- docker push reactapp/multi-worker
+
+  #deploy: 
+  #edge: true
+  #provider: elasticbeanstalk
+  #region: "eu-central-1"
+  #app: "ReactApp"
+  #env: "Reactapp-env"
+  #bucket_name: "elasticbeanstalk-eu-central-1-497579936533"
+  # bucket_path: "ReactApp"
+  #on:
+  #branch: master
+  #access_key_id: $AWS_ACCESS_KEY
+  #secret_access_key:
+  #secure: "$AWS_SECRET_KEY" 
+        
+
